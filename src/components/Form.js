@@ -2,10 +2,34 @@ import React from 'react'
 import axios from 'axios';
 
 export default class Form extends React.Component {
+  constructor(props) {
+    super(props);
+    // create a ref to store the form DOM element
+    this.form = React.createRef();
+    // this.keydownHandler = this.keydownHandler.bind(this);
+  }
+
   state = {
     aspen: "(Liz) [knows] (Jack).",
     match_present: false
   };
+
+  keydownHandler (e) {
+    if(!(e.keyCode === 13 && e.metaKey)) return;
+    console.log("Triggered")
+    // There should be a way to do this with a ref.
+    const btn = document.getElementById('submit')
+    console.log(btn);
+    btn.click();
+  }
+
+  componentDidMount () {
+    document.addEventListener('keydown', this.keydownHandler);
+  }
+
+  componentWillUnmount () {
+    document.removeEventListener('keydown', this.keydownHandler);
+  }
 
   onChange = (event) => {
     const regex = new RegExp(/^grammar:/, 'gm')
@@ -24,7 +48,7 @@ export default class Form extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form ref={this.form} onSubmit={this.handleSubmit}>
         <textarea
           cols="70"
           rows="8"
@@ -41,7 +65,7 @@ export default class Form extends React.Component {
             to see the results of the custom grammar.
           </p>
         }
-        <button>Convert Aspen</button>
+        <button id="submit">Convert Aspen</button>
       </form>
     );
   }
