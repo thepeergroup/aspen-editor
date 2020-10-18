@@ -1,7 +1,14 @@
 import React from 'react'
 import axios from 'axios';
 
-export default class Form extends React.Component {
+import { Button } from 'react-bulma-components';
+// import { Form } from 'react-bulma-components';
+
+import defaultAspen from '../default/aspen.js'
+
+// const { Input, Field, Control, Label } = Form;
+
+export default class AspenForm extends React.Component {
   constructor(props) {
     super(props);
     // create a ref to store the form DOM element
@@ -10,8 +17,9 @@ export default class Form extends React.Component {
   }
 
   state = {
-    aspen: "(Liz) [knows] (Jack).",
-    match_present: false
+    aspen: defaultAspen,
+    match_present: false,
+    error: false
   };
 
   keydownHandler (e) {
@@ -50,22 +58,29 @@ export default class Form extends React.Component {
     return (
       <form ref={this.form} onSubmit={this.handleSubmit}>
         <textarea
+          className={"textarea " + (this.props.error ? 'is-danger' : '')}
           cols="70"
-          rows="8"
+          rows="20"
           type="text"
           value={this.state.aspen}
           onChange={this.onChange}
           required
         />
         <br />
-        {this.state.match_present &&
-          <p>
-            Custom grammars will only appear in the Cypher export.
-            Click "Copy Cypher" after converting Aspen in order
-            to see the results of the custom grammar.
-          </p>
-        }
-        <button id="submit">Convert Aspen</button>
+        <div className="columns">
+          <div className="column is-two-thirds">
+            {this.state.match_present &&
+              <p>
+                Custom grammars will only appear in the Cypher export.
+                Click "Copy Cypher" after converting Aspen in order
+                to see the results of the custom grammar.
+              </p>
+            }
+          </div>
+          <div className="column is-one-third">
+            <Button color="primary" id="submit">Convert Aspen</Button>
+          </div>
+        </div>
       </form>
     );
   }

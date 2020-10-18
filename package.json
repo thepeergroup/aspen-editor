@@ -9,7 +9,9 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.20.0",
     "dotenv": "^8.2.0",
+    "node-sass": "^4.14.1",
     "react": "^16.14.0",
+    "react-bulma-components": "^3.4.0",
     "react-clipboard.js": "^2.0.16",
     "react-dom": "^16.14.0",
     "react-scripts": "3.4.3"

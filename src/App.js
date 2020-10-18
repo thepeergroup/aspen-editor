@@ -1,18 +1,12 @@
 import React from 'react';
 
-import Form       from './components/Form.js'
-import Graph      from './components/Graph.js'
-import ResultData from './components/ResultData.js'
+import 'react-bulma-components/dist/react-bulma-components.min.css';
 
-const Error = (props) => {
-  return (
-    <div class="error">
-      <p className="error">
-        <strong>{props.error.type}</strong>: {props.error.message}
-      </p>
-    </div>
-  );
-}
+import AspenForm  from './components/AspenForm.js'
+import AspenError from './components/AspenError.js'
+import Graph      from './components/Graph.js'
+import Navbar     from './components/Navbar.js'
+import ResultData from './components/ResultData.js'
 
 export default class App extends React.Component {
   state = {
@@ -23,19 +17,26 @@ export default class App extends React.Component {
   };
   render() {
     return (
-      <div>
-        <Form onSubmit={this.setResult} />
-        {
-          this.state.data.type === "success" &&
-            <>
-              <ResultData result={this.state.data} />
-              <Graph data={this.state.data} />
-            </>
-        }
-        {
-          this.state.data.type === "error" &&
-            <Error error={this.state.data.error} />
-        }
+      <div className="container main">
+        <Navbar />
+        <div className="columns">
+          <div className="column is-half">
+            <AspenForm onSubmit={this.setResult} error={this.state.data.type === "error"} />
+          </div>
+          <div className="column">
+            {
+              this.state.data.type === "success" &&
+                <>
+                  <Graph data={this.state.data} />
+                  <ResultData result={this.state.data} />
+                </>
+            }
+            {
+              this.state.data.type === "error" &&
+                <AspenError error={this.state.data.error} />
+            }
+          </div>
+        </div>
       </div>
     );
   }

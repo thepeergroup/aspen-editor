@@ -70,11 +70,30 @@ const Graph = (props) => {
       for (let canvas of canvases) { canvas.remove() };
     }
 
+    const width = document.getElementById('graphMountNode').scrollWidth;
+    const height = document.getElementById('graphMountNode').scrollHeight || 500;
+
+    const tooltip = new G6.Tooltip({
+      offsetX: 200,
+      offsetY: 20,
+      getContent(e) {
+        const outDiv = document.createElement('div');
+        outDiv.style.width = '180px';
+        outDiv.innerHTML = `
+          <ul>
+            <li>Type/Label: ${e.item.getModel().type}</li>
+            <li>Attributes:<br />${JSON.stringify(e.item.getModel().attributes)}</li>
+          </ul>`
+        return outDiv
+      },
+      itemTypes: ['node']
+    });
+
     if(!graph) {
       graph = new G6.Graph({
         container: 'graphMountNode',
-        width: 800,
-        height: 500,
+        width: width,
+        height: height,
         // modes: {
         //   default: ['drag-canvas', 'name']
         // },
@@ -110,6 +129,7 @@ const Graph = (props) => {
           nodeStrength: (node) => { return node.isLeaf ? -50 : -10; },
           edgeStrength: (edge) => { return 0.5; },
         },
+        plugins: [tooltip],
       })
     }
 
@@ -137,7 +157,7 @@ const Graph = (props) => {
   }) //, []) <- remove first paren and uncomment to run only once
 
   return (
-    <div id="graphMountNode"></div>
+    <div id="graphMountNode" style={{width: '100%'}}></div>
   );
 }
 
