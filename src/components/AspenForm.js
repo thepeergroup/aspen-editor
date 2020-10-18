@@ -24,7 +24,6 @@ export default class AspenForm extends React.Component {
 
   keydownHandler (e) {
     if(!(e.keyCode === 13 && e.metaKey)) return;
-    console.log("Triggered")
     // There should be a way to do this with a ref.
     const btn = document.getElementById('submit')
     console.log(btn);
@@ -47,7 +46,7 @@ export default class AspenForm extends React.Component {
   }
 
   handleSubmit = async (event) => {
-    const api_url = process.env.API_HOST || 'http://localhost:9292'
+    const api_url = 'https://aspen-lang-api.herokuapp.com'
     event.preventDefault();
     console.log("Pulling data from: " + api_url)
     const resp = await axios.post(api_url, { code: this.state.aspen });
